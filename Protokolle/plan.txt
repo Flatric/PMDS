@@ -1,0 +1,42 @@
+1. Med Hintergrund -> Cedric
+- Erklären wofür die Todesfall Daten genutzt werden können.(Gesundheitssystem verbessern oder so?). 
+- Erklärung Sterbefall, Sterblichkeit, altersbereinigte Sterblichkeit 
+- Quellen der Daten.
+- Altersbereinigung definieren und erklären!!!!!
+- Medizinisch gesehen andere Metrik interessant (verlorene Lebenszeit)
+- Erklären dass Corona tötlicher als Grippe ist (weil in den Medien immer Grippewelle mit Corona verglichen wird)
+
+2. Informatischer Hintergrund -> Christian,
+- Datascience auf dem Vormarsch, auch in der Medizin, deshalb:
+- manuelle Lösung ist sinnlos, da Datenmengen zu groß
+- statista (kommerziell), vielleicht noch weiteres?
+- Python (zb Pandas, seaborn) Python mehr vertreten, mehr Resourcen verfügbar, R 
+
+3. Ziel 
+"Analysieren, bewerten und visualisieren Sie also die Sterblichkeit in der
+Corona-Pandemie unter Berücksichtigung der Vorjahre"
+
+4. Vorgehensplan (ungeordnet)
+- Grobe Übersicht durch erste Visualisierungen
+- Vergleich Grippe- und Coronawelle
+- Datenaufbereitung
+- Altersbereinigung
+- Sterbewahrscheinlichkeiten
+- Übersterblichkeit einschätzen
+- Ist nicht in Stein gemeißelt!
+
+5. Aufgabenverteilung -> Mike
+- Baum, Schlagworte aus Paper als Äste
+
+6. Aktueller Zwischenstand -> Christian
+- Graphen zeigen 
+- CSV von Christian
+- Tool in Python zum Darstellen, Jupyter Notebook 
+
+7. Ausblick -> Christian
+- Kausalitätsanalyse
+- Medizinerfreundliche Darstellung (GUI, Website)
+
+
+
+
