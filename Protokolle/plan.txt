@@ -12,11 +12,11 @@
 - statista (kommerziell), vielleicht noch weiteres?
 - Python (zb Pandas, seaborn) Python mehr vertreten, mehr Resourcen verfügbar, R 
 
-3. Ziel 
+3. Ziel Mike
 "Analysieren, bewerten und visualisieren Sie also die Sterblichkeit in der
 Corona-Pandemie unter Berücksichtigung der Vorjahre"
 
-4. Vorgehensplan (ungeordnet)
+4. Vorgehensplan (ungeordnet) Mike
 - Grobe Übersicht durch erste Visualisierungen
 - Vergleich Grippe- und Coronawelle
 - Datenaufbereitung
