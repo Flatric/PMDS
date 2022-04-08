@@ -9,12 +9,12 @@ mpl.rcParams['figure.dpi'] = 500
 if "data" in globals():
     pass
 else:
-    data = pd.read_excel("Todesursachen 98-20.xlsx", index_col=[0,1], header=[0,1])
+    data = pd.read_excel("../Data/Todesursachen 98-20.xlsx", index_col=[0,1], header=[0,1])
     data = data[data.columns].replace(["-","."],0)
     
     # Age standardization.
-    standard_pop = pd.read_csv("Standard Population.txt", index_col=0)
-    age_brackets = pd.read_csv("Bevölkerung nach Alter.csv",index_col=[0,1])
+    standard_pop = pd.read_csv("../Data/Standard Population.txt", index_col=0)
+    age_brackets = pd.read_csv("../Data/Bevölkerung nach Alter.csv",index_col=[0,1])
     
     # Merge brackets
     for i in [1,15,20,25]:
