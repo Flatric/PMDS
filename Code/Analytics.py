@@ -13,6 +13,7 @@ else:
     relative_path = os.getcwd()[:-4] + "\\Data"
     data = pd.read_excel(f"{relative_path}\\Todesursachen 98-20.xlsx", index_col=[0,1], header=[0,1])
     data = data[data.columns].replace(["-","."],0)
+    causes_of_death = list(data.loc[1999].index)
     
     # Age standardization.
     standard_pop = pd.read_csv(f"{relative_path}\\European Standard Population.txt", index_col=0)
