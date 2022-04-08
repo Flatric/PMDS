@@ -109,18 +109,26 @@ def total_deaths(start: int, end: int, standardize=True, data=data, age_brackets
        return pd.DataFrame(data=data)
            
     else:
-        total_deaths = [data.loc[year,"Insgesamt"].sum() for year in years] 
+        total_deaths = []
+        for year in years:
+            deaths = data.loc[year].loc[names].sum()
+            deaths = deaths.unstack(level=0)
+            deaths["total"] = deaths["männlich"] + deaths["weiblich"]
+            # Drop deaths where age is unknown.
+            deaths = deaths.drop("Alter unbekannt",axis=0)["total"]
+            total_deaths.append(deaths.sum())
+            
         data = {"year": years, "deaths": total_deaths}
         return pd.DataFrame(data=data)
 
+if __name__ == "__main__":
+    # Example: 
+    #  Plotting total deaths from 1998 until 2020.
+    total_deaths = total_deaths(1998,2020)
 
-# Example: 
-#  Plotting total deaths from 1998 until 2020.
-total_deaths = total_deaths(1998,2020)
-
-sns.set_style("darkgrid")
-sns.lineplot(data=total_deaths, x="year", y="deaths",
-              marker="o", color="#03499a").set_title('Annual Standardized Deaths in Germany 1998-2020')
-# remove upper horizontal and right vertical axis from plot.   
-sns.despine()
+    sns.set_style("darkgrid")
+    sns.lineplot(data=total_deaths, x="year", y="deaths",
+                marker="o", color="#03499a").set_title('Annual Standardized Deaths in Germany 1998-2020')
+    # remove upper horizontal and right vertical axis from plot.   
+    sns.despine()
 
