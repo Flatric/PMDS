@@ -53,7 +53,7 @@ def death_cause(names, years, data=data):
         
     return data 
     
-def total_deaths(start: int, end: int, standardize=True, data=data, age_brackets=age_brackets, standard_pop=standard_pop):
+def total_deaths(start: int, end: int, names: list, standardize=True, data=data, age_brackets=age_brackets, standard_pop=standard_pop):
     """
     
     Count the total deaths that occured in each year between start and end
@@ -63,6 +63,8 @@ def total_deaths(start: int, end: int, standardize=True, data=data, age_brackets
         Year from which to start counting.
     end : int
         Year up to which to count.
+    names: list
+        Types of death causes to be considered.
     standardize: bool
         Whether to age standardize the data w.r.t the standard population given
         in standard_pop.
@@ -71,12 +73,15 @@ def total_deaths(start: int, end: int, standardize=True, data=data, age_brackets
         Series containing total deaths indexed by year.
 
     """
+    if type(names) == str:
+        names = [names]
+        
     years = [year for year in range(start, end+1)]
     
     if standardize:
        total_deaths = []
        for year in years:
-           deaths = data.loc[year,"Insgesamt"]
+           deaths = data.loc[year].loc[names].sum()
            # .unstack dissolves multi index s.t frame has two more columns instead of one.
            deaths = deaths.unstack(level=0)
            deaths["total"] = deaths["männlich"] + deaths["weiblich"]
@@ -127,7 +132,7 @@ def total_deaths(start: int, end: int, standardize=True, data=data, age_brackets
 if __name__ == "__main__":
     # Example: 
     #  Plotting total deaths from 1998 until 2020.
-    total_deaths = total_deaths(1998,2020)
+    total_deaths = total_deaths(1998,2020,"Grippe")
 
     sns.set_style("darkgrid")
     sns.lineplot(data=total_deaths, x="year", y="deaths",
