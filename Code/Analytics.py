@@ -162,7 +162,7 @@ if __name__ == "__main__":
     # Take mean of the last three years in order to calculate deaths for 2021.
     n_deaths_2021_males = 1790
     n_deaths_2021_females = 1127
-    print(f"Mean of last three years for males: {male_young_deaths.loc[[2018,2019,2020]].mean() * {n_deaths_2021_males}\n}")
-    print(f"Mean of last three years for females: {female_young_deaths.loc[[2018,2019,2020]].mean() * {n_deaths_2021_females}}")
+    print(f"Mean of last three years for males: {male_young_deaths.loc[[2018,2019,2020]].mean()} * {n_deaths_2021_males}\n")
+    print(f"Mean of last three years for females: {female_young_deaths.loc[[2018,2019,2020]].mean()} * {n_deaths_2021_females}")
 
     
