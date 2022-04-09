@@ -40,7 +40,7 @@ class MyGUI(QMainWindow):
         self.item_selected = False
         self.standardize=None
         self.setWindowTitle("POMEDOS")
-        self.setWindowIcon(QIcon('GUI\icon.png'))
+        self.setWindowIcon(QIcon('GUI\custom_icon.png'))
         self.show()
         
     def plot_graph(self):
@@ -54,10 +54,10 @@ class MyGUI(QMainWindow):
             fig.set_size_inches(7.25, 5)
             self.figure = fig
             # Create plot.
-            sns.set_style("darkgrid")
             self.deaths = total_deaths(1998, 2020, self.causes, self.standardize)
             sns.lineplot(data=self.deaths, x="year", y="deaths",
                  marker="o", color="#03499a", label=self.label).set_title('Annual Standardized Deaths in Germany 1998-2020')
+            sns.set_style("darkgrid")
             sns.despine()
             # Show plot in GUI.
             canvas = FigureCanvas(self.figure)
