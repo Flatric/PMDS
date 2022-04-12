@@ -64,12 +64,9 @@ class MyGUI(QMainWindow):
             scene = QGraphicsScene()
             scene.addWidget(canvas)
             self.graphicsView.setScene(scene)
-        else:
-            pass
+
         
     def save_graph(self):
-        if self.deaths == None:
-            pass
         suffix = ""
         if self.standardize:
             suffix = "standardize"

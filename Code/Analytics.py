@@ -1,3 +1,4 @@
+from importlib.resources import path
 import os
 import pandas as pd
 import seaborn as sns
@@ -6,18 +7,24 @@ import matplotlib.pyplot as plt
 # Set image resolution very high.
 mpl.rcParams['figure.dpi'] = 500
 
+def get_standard_pop(path_to_dir):
+    standard_pop = pd.read_csv(f"{path_to_dir}\\European Standard Population.txt", index_col=0)
+    return standard_pop
 
-if "data" in globals():
-    pass
-else:
-    relative_path = os.getcwd()[:-4] + "\\Data"
+def get_age_brackets(path_to_dir):
+    age_brackets = pd.read_csv(f"{path_to_dir}\\Bevölkerung nach Alter.csv",index_col=[0,1])
+    return age_brackets
+
+if "data" not in globals():
+    relative_path = os.getcwd()[:-4] + "\\Data" #SET DATA PATH MÖGLICHKEIT HINZUFÜGEN
+
     data = pd.read_excel(f"{relative_path}\\Todesursachen 98-20.xlsx", index_col=[0,1], header=[0,1])
     data = data[data.columns].replace(["-","."],0)
     causes_of_death = list(data.loc[1999].index)
     
     # Age standardization.
-    standard_pop = pd.read_csv(f"{relative_path}\\European Standard Population.txt", index_col=0)
-    age_brackets = pd.read_csv(f"{relative_path}\\Bevölkerung nach Alter.csv",index_col=[0,1])
+    standard_pop = get_standard_pop(relative_path)
+    age_brackets = get_age_brackets(relative_path)
     
     # Merge brackets
     for i in [1,15,20,25]:
