@@ -6,7 +6,7 @@ import seaborn as sns
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 # Set image resolution very high.
-mpl.rcParams['figure.dpi'] = 500
+mpl.rcParams['figure.dpi'] = 100
 
 
 if "data" in globals():

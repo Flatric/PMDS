@@ -11,7 +11,7 @@ import numpy as np
 from statsmodels.tsa.deterministic import CalendarFourier, DeterministicProcess
 from scipy.signal import periodogram
 from sklearn.linear_model  import LinearRegression
-from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
@@ -28,12 +28,17 @@ Weekly_Deaths_test = Weekly_Deaths[Weekly_Deaths.index.year > 2019]
 
 #%% Periodogram of Series
 fs = pd.Timedelta("1Y") / pd.Timedelta("1W")
-f, Pxx = periodogram(Weekly_Deaths_train.Value, fs=fs)
+f, Pxx = periodogram(Weekly_Deaths_train.Value, fs=fs, detrend="linear", scaling="spectrum")
+# The Power Spectrum Pxx indicates the share of each frequency of the variance of the Time Series.
+print(np.sum(Pxx) == np.var(Weekly_Deaths_train.Value))
 plt.plot(f, Pxx)
+plt.xlabel('Frequency [Year]')
+plt.ylabel('Power Spectrum [V**2]')
+plt.show()
 
 #%% Modeling of Time Series
 
-fourier = CalendarFourier(freq="A", order=2)
+fourierA = CalendarFourier(freq="A", order=3)
 
 
 y_train = Weekly_Deaths_train.Value
@@ -41,9 +46,7 @@ y_train = Weekly_Deaths_train.Value
 dp = DeterministicProcess(index=y_train.index.to_period("W"),
                           constant=True,               # dummy feature for bias (y-intercept)
                           order=1,                     # trend (order 1 means linear)
-                          additional_terms=[fourier],  # annual seasonality (fourier)
-                          drop=True,)                  # drop terms to avoid collinearity
-
+                          additional_terms=[fourierA],) # annual seasonality (fourier)
 X_train = dp.in_sample()
 
 val_index = Weekly_Deaths_val.index
@@ -82,7 +85,7 @@ y_comb_train = Weekly_Deaths[Weekly_Deaths.index.year < 2020]
 dp = DeterministicProcess(index=y_comb_train.index.to_period("W"),
                           constant=True,               # dummy feature for bias (y-intercept)
                           order=1,                     # trend (order 1 means linear)
-                          additional_terms=[fourier],  # annual seasonality (fourier)
+                          additional_terms=[fourierA],  # annual seasonality (fourier)
                           drop=True,)                  # drop terms to avoid collinearity
 
 
