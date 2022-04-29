@@ -14,3 +14,4 @@ Here, the repo will be used to address the following questions:
 * So analyze, evaluate, and visualize mortality in the
   Corona pandemic, taking into account previous years.
 
+For the processing of the question, the data were taken from the Federal Statistical Office Destatis and their online database Genesis. 
