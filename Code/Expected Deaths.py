@@ -9,6 +9,7 @@ from Analytics import eurostats_loader
 import pandas as pd
 import numpy as np
 from statsmodels.tsa.deterministic import CalendarFourier, DeterministicProcess
+from statsmodels.graphics.tsaplots import plot_pacf
 from scipy.signal import periodogram
 from sklearn.linear_model  import LinearRegression
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
@@ -77,6 +78,13 @@ for i,model in enumerate(Models):
     ax_val.axes.annotate(f"MSE: {mse:.2f}", xy=(0.8,0.9), xycoords='axes fraction', fontsize=10)
     y_val.plot(ax=ax_val)
     Weekly_Deaths_val.Value.plot(ax=ax_val)
+
+#%% Analyze Residuals
+residuals = Weekly_Deaths_train.Value - y_pred
+fig, ax = plt.subplots(2,1, layout="constrained")
+residuals.plot(ax=ax[0], kind="kde").set_title("Distribution of Residuals")
+plot_pacf(residuals, ax=ax[1], method='ywm', zero=False)
+ax[1].set_ylabel("Correlation")
     
 #%% Calculate Excess Deaths with best model.
 
