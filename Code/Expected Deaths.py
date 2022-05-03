@@ -82,8 +82,8 @@ for i,model in enumerate(Models):
 #%% Analyze Residuals
 residuals = Weekly_Deaths_train.Value - y_pred
 fig, ax = plt.subplots(2,1, layout="constrained")
-residuals.plot(ax=ax[0], kind="kde").set_title("Distribution of Residuals")
-plot_pacf(residuals, ax=ax[1], method='ywm', zero=False)
+residuals.plot(ax=ax[0], kind="hist").set_title("Distribution of Residuals")
+plot_pacf(residuals, ax=ax[1], method='ols', zero=False)
 ax[1].set_ylabel("Correlation")
     
 #%% Calculate Excess Deaths with best model.
