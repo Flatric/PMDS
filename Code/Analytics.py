@@ -133,15 +133,15 @@ def total_deaths(start: int, end: int, names: list, standardize=True, data=data,
 
 
 
-def eurostats_loader():
+def eurostats_loader(name):
     relative_path = os.getcwd()[:-4] + "\\Data"
-    data = pd.read_csv(f"{relative_path}\\Germany Weekly Total Deaths.csv",index_col=0)
+    data = pd.read_csv(f"{relative_path}\\{name}.csv",index_col=0)
     data = data[data != ":"].dropna()
     data["Value"] = data["Value"].str.replace("," , "")
     data["Value"] = data["Value"].apply(lambda value: value + "0"*(5-len(value))).astype("int")
     
-    data.index = data.index.map(lambda date: date.replace("W","/")+"/6")
-    data.index = pd.to_datetime(data.index,format="%Y/%W/%w")
+    data.index = data.index.map(lambda date: date.replace("W","/")+"/1")
+    data.index = pd.to_datetime(data.index,format="%G/%V/%w")
     data.index.name = "Date"
     
     data = data[~data.index.duplicated()]
@@ -150,7 +150,14 @@ def eurostats_loader():
 
 
 if __name__ == "__main__":
-
+    
+    name = "Germany Weekly Total Deaths"
+    relative_path = os.getcwd()[:-4] + "\\Data"
+    data = pd.read_csv(f"{relative_path}\\{name}.csv",index_col=0)
+    data = data[data != ":"].dropna()
+    data["Value"] = data["Value"].str.replace("," , "")
+    data["Value"] = data["Value"].apply(lambda value: value + "0"*(5-len(value))).astype("int")
+    data.index = data.index.map(lambda date: date.replace("W","/")+"/1")
     
     # FF = abs((np.fft.rfft(Deaths_detrended)/np.sqrt(len(Deaths_detrended))))**2
     # P = 4/len(Deaths_detrended) * FF

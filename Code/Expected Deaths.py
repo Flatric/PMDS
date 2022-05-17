@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 mpl.rcParams['axes.prop_cycle'] = mpl.cycler(color=["#0645ad", "#800020"]) 
 
 #%% Create Data
-Weekly_Deaths = eurostats_loader()
+Weekly_Deaths = data
 Weekly_Deaths = Weekly_Deaths[Weekly_Deaths.index.year >= 2008]
 
 Weekly_Deaths_train = Weekly_Deaths[Weekly_Deaths.index.year < 2019]
@@ -67,7 +67,7 @@ for i,model in enumerate(Models):
     y_pred = pd.Series(model.predict(X_train).reshape(-1), index=y_train.index)
     y_val = pd.Series(model.predict(X_val).reshape(-1), index=val_index)
     
-    mse = np.mean(np.sqrt((y_val-Weekly_Deaths_val.Value)**2))
+    mae = np.mean(np.abs(y_val-Weekly_Deaths_val.Value))
     
     ax_train = axes[i,0]
     #ax_train.set_title(type(model).__name__)
@@ -75,14 +75,15 @@ for i,model in enumerate(Models):
     Weekly_Deaths_train.Value.plot(ax=ax_train)
     
     ax_val = axes[i,1]
-    ax_val.axes.annotate(f"MSE: {mse:.2f}", xy=(0.8,0.9), xycoords='axes fraction', fontsize=10)
+    ax_val.axes.annotate(f"MAE: {mse:.2f}", xy=(0.8,0.9), xycoords='axes fraction', fontsize=10)
     y_val.plot(ax=ax_val)
     Weekly_Deaths_val.Value.plot(ax=ax_val)
 
 #%% Analyze Residuals
 residuals = Weekly_Deaths_train.Value - y_pred
 fig, ax = plt.subplots(2,1, layout="constrained")
-residuals.plot(ax=ax[0], kind="hist").set_title("Distribution of Residuals")
+residuals.plot(ax=ax[0], kind="hist", bins=70).set_title("Distribution of Residuals")
+ax[0].axes.annotate(f"$\mu$: {residuals.mean():.2f}", xy=(0.8,0.8), xycoords='axes fraction', fontsize=10)
 plot_pacf(residuals, ax=ax[1], method='ols', zero=False)
 ax[1].set_ylabel("Correlation")
     
