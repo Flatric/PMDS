@@ -133,18 +133,23 @@ def total_deaths(start: int, end: int, names: list, standardize=True, data=data,
 
 
 
-def eurostats_loader(name):
+def data_loader(name):
     relative_path = os.getcwd()[:-4] + "\\Data"
     data = pd.read_csv(f"{relative_path}\\{name}.csv",index_col=0)
     data = data[data != ":"].dropna()
-    data["Value"] = data["Value"].str.replace("," , "")
-    data["Value"] = data["Value"].apply(lambda value: value + "0"*(5-len(value))).astype("int")
     
-    data.index = data.index.map(lambda date: date.replace("W","/")+"/1")
-    data.index = pd.to_datetime(data.index,format="%G/%V/%w")
+    if name == "Germany Weekly Total Deaths":
+        data["Value"] = data["Value"].str.replace("," , "")
+        data["Value"] = data["Value"].apply(lambda value: value + "0"*(5-len(value))).astype("int")
+        data.index = data.index.map(lambda date: date.replace("W","-")+"-1")
+        
+    elif name == "Germany Weekly Total Deaths Standardized":
+         data = data.rename(columns={"Sterberate": "Value"})
+         
+    data.index = pd.to_datetime(data.index,format="%G-%V-%w")
+    
     data.index.name = "Date"
     
-    data = data[~data.index.duplicated()]
     return data
 
 
